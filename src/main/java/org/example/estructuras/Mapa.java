@@ -1,5 +1,7 @@
 package org.example.estructuras;
 
+import org.example.estructuras.arbol.ArbolAVL;
+
 public class Mapa {
 
     private  int tamanio =0;
@@ -9,7 +11,6 @@ public class Mapa {
         this.tamanio = tamanio;
         construirMapaCuadrado();
     }
-
 
     private void construirMapaCuadrado() {
 
@@ -43,10 +44,8 @@ public class Mapa {
                     }
                     nodoActualFila = nuevoNodo;
                 }
-
                 columnaAnterior = nuevoNodo;
             }
-
             filaAnterior = nodoActualFila;
         }
     }
@@ -103,11 +102,9 @@ public class Mapa {
                 nuevoNodoFila.setArriba(columnaArriba);
                 columnaArriba = columnaArriba.getDerecha(); // Mover al siguiente de arriba
             }
-
             if (nuevoInicioFila == null) {
                 nuevoInicioFila = nuevoNodoFila;
             }
-
             anteriorNuevo = nuevoNodoFila;
         }
     }
@@ -168,17 +165,48 @@ public class Mapa {
             }
         }
 
-        /*
-        public NodoInterseccion getNodo(String x , int y) {
+     /// obtner nodo:
 
+    public NodoInterseccion getNodo(String fila, int columna) {
+        NodoInterseccion filaActual = inicio;
 
+        while (filaActual != null) {
+            if (filaActual.getFila().equals(fila)) {
+                NodoInterseccion columnaActual = filaActual;
 
-
+                while (columnaActual != null) {
+                    if (columnaActual.getColumna() == columna) {
+                        return columnaActual;
+                    }
+                    columnaActual = columnaActual.getDerecha();
+                }
+            }
+            filaActual = filaActual.getAbajo();
         }
-        */
-
-
-
-
+        return null;
     }
+
+    public void ordenarEnArbol(ArbolAVL arbolAVL) {
+        NodoInterseccion filaActual = inicio;
+
+        while (filaActual != null) {
+            NodoInterseccion columnaActual = filaActual;
+
+            while (columnaActual != null) {
+                // ingresar e en el arbol Alv
+                arbolAVL.insertar(columnaActual);
+
+                columnaActual = columnaActual.getDerecha();
+            }
+
+            filaActual = filaActual.getAbajo();
+        }
+    }
+
+
+
+
+
+
+}
 

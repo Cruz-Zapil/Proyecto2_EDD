@@ -9,11 +9,10 @@ public class ListaNewVehiculo {
     /// ingresar vehiculo ordenado por posicion
 
     public void ingresarOrdenado(Vehiculo vehiculo) {
-        System.out.println(" ingresar vehiculo ");
         Nodo nuevoNodo = new Nodo(vehiculo);
 
         //  lista vacia y  o nuevo vehículo tiene código menor al primero
-        if (cabeza == null || vehiculo.getCodigo() < cabeza.getVehiculo().getCodigo()) {
+        if (cabeza == null || vehiculo.getCodigo() > cabeza.getVehiculo().getCodigo()) {
             nuevoNodo.setSiguiente(cabeza);
             cabeza = nuevoNodo;
         } else {
@@ -52,6 +51,20 @@ public class ListaNewVehiculo {
             actual = actual.getSiguiente();
         }
         return contador;
+    }
+
+    public Vehiculo getPrimerVehiculo() {
+        if (cabeza == null) {
+            return null; // la lista esta vacia
+        }
+        Vehiculo vehiculo = cabeza.getVehiculo(); // obtenemos el primero
+        cabeza = cabeza.getSiguiente(); // obtenemos el siguente
+        return vehiculo;
+    }
+
+    /// obtenemos el tamaño de la tabla
+    public int getTamanioTabla(){
+        return cabeza.getVehiculo().getCodigo();
     }
 
 

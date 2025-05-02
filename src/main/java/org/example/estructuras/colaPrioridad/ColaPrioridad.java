@@ -1,4 +1,4 @@
-package org.example.estructuras;
+package org.example.estructuras.colaPrioridad;
 import org.example.objeto.Vehiculo;
 import java.util.NoSuchElementException;
 
@@ -6,6 +6,7 @@ public class ColaPrioridad {
 
     private NodoCola inicio;
     private int longitud;
+    private final int longituMax = 7;
 
     public ColaPrioridad(){
         this.longitud =0;
@@ -14,7 +15,7 @@ public class ColaPrioridad {
     /// ingresar vehiculo
     public void encolar(Vehiculo vehiculo){
 
-        if (this.longitud >= 7){
+        if (this.longitud >= longituMax ){
             throw  new IllegalStateException("La avenidad esta llena (maximo de 7)");
         }
         NodoCola nuevoNodo = new NodoCola(vehiculo);
@@ -104,8 +105,14 @@ public class ColaPrioridad {
     }
 
     public int getEspacioDisponible(){
-        return 7-longitud;
+        return longituMax-longitud;
     }
+
+    public int getCantCarros(){
+        return longitud;
+    }
+
+
 
 }
 

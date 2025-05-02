@@ -1,4 +1,4 @@
-package org.example.estructuras;
+package org.example.estructuras.colaPrioridad;
 
 
 import org.example.objeto.Vehiculo;
@@ -11,5 +11,7 @@ public class NodoCola {
     public NodoCola(Vehiculo  vehiculo) {
         this.vehiculo = vehiculo;
     }
+
+
 
 }

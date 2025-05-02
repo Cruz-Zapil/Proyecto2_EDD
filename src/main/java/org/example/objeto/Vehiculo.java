@@ -20,24 +20,24 @@ public class Vehiculo  {
   //  private Mapa mapa;
 
     // se usa este constructor para un nuevo vehiculo
-    public Vehiculo(String tipo, String placa,String origen, String destino) throws InterruptedException {
+    public Vehiculo(String tipo, String placa,String origen, String destino) {
         System.out.println(" nuevo vehiculo ");
         this.tipo = tipo;
         this.placa = placa;
         this.origen = origen;
         this.destino = destino;
         this.tamanioTabla = calcularCodigo();
-        System.out.println("valor de codigo: "+ this.tamanioTabla);
 
-        gerneradorPrioridad();
        // tiempoEspera();
 
+        /// asignar logo y prioridad
 
-
-
+        setLogoAndPrioridad();
     }
+
+
 /// se usa para la lectura de archivo
-    public Vehiculo(String tipo, String placa, String origen, String  destino, int prioridad, int tiempoEspera) throws InterruptedException {
+    public Vehiculo(String tipo, String placa, String origen, String  destino, int prioridad, int tiempoEspera)  {
 
         this.tipo = tipo;
         this.placa = placa;
@@ -46,20 +46,18 @@ public class Vehiculo  {
         this.prioridad = prioridad;
         this.tiempoEspera = tiempoEspera;
         this.tamanioTabla = calcularCodigo();
-        System.out.println("valor de codigo: "+ this.tamanioTabla);
-      //  tiempoEspera();
+        //  tiempoEspera();
 
-
+        /// asignar logo y prioridad
+        setLogoAndPrioridad();
 
 
     }
-
     /// funciones Internas
 
     private void mover(){
 
     }
-
     /// funcion de tiempo
 
     private void tiempoEspera() throws InterruptedException {
@@ -68,15 +66,9 @@ public class Vehiculo  {
             tiempoEspera++;
         }
     }
-
-
-
-
-    private void gerneradorPrioridad(){
-        /// se genera la prioridad aqui
+    public String getOrigen(){
+        return origen;
     }
-    /// getters and setters
-
 
     public void reiniciarTiempo(){
         tiempoEspera = 0;
@@ -86,42 +78,68 @@ public class Vehiculo  {
         return placa;
     }
 
-    public String getLogo(){
+    public void setLogoAndPrioridad(){
 
         boolean soportaEmiji  = checkEmojiSupport();
         if(soportaEmiji){
-            switch (this.logo){
+            switch (this.tipo){
                 case "AMBULANCIA":
-                    return "🚑";
-
+                    this.logo= "🚑";
+                    this.prioridad =5;
+                    break;
                 case "POLICIA":
-                    return "\uD83D\uDE93";
+                    this.logo=  "\uD83D\uDE93";
+                    this.prioridad =4;
+                    break;
 
                 case "TRASPORTE":
-                    return "\uD83D\uDE8C";
+                    this.logo= "\uD83D\uDE8C";
+                    this.prioridad =3;
+                    break;
 
                 case "PARTICULAR":
-                    return "🛻";
+                    this.logo=  "🛻";
+                    this.prioridad =2;
+                    break;
+                default:
+                    this.logo ="V";
+                    this.prioridad =1;
+                    break;
             }
         }else{
 
             switch (this.logo){
 
                 case "AMBULANCIA":
-                    return "A";
+                    this.logo=  "A";
+                    this.prioridad =4;
+                    break;
 
                 case "POLICIA":
-                    return "P";
+                    this.logo=  "P";
+                    this.prioridad =3;
+                    break;
 
                 case "TRASPORTE":
-                    return "T";
+                    this.logo=  "T";
+                    this.prioridad =2;
+                    break;
 
                 case "PARTICULAR":
-                    return "$";
+                    this.logo=  "$";
+                    this.prioridad =1;
+                    break;
+
+                default:
+                    this.logo ="V";
+                    this.prioridad =1;
+                    break;
             }
         }
+    }
 
-        return "O";
+    public String getLogo(){
+        return logo;
     }
 
     private boolean checkEmojiSupport() {
@@ -133,6 +151,7 @@ public class Vehiculo  {
             return false;
         }
     }
+
 
     public int getPrioridad(){
         return prioridad;
