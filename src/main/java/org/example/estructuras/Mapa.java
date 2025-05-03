@@ -170,6 +170,22 @@ public class Mapa {
             }
         }
 
+        /// mostramos eventos de cada nodo
+        
+    public void mostrarEventos() {
+        NodoInterseccion filaActual = inicio;
+
+        while (filaActual != null) {
+            NodoInterseccion columnaActual = filaActual;
+
+            while (columnaActual != null) {
+                columnaActual.mostrarEventos();
+                columnaActual = columnaActual.getDerecha();
+            }
+            filaActual = filaActual.getAbajo();
+        }
+    }
+
      /// obtner nodo:
 
     public NodoInterseccion getNodo(String fila, int columna) {

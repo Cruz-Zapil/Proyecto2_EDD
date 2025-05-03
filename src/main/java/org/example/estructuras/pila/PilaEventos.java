@@ -57,6 +57,10 @@ public class PilaEventos {
     // imprimir eventos 
     public void imprimir() {
         Nodo actual = cima;
+        if (actual == null) {
+            System.out.println("No hubo evento .");
+            return;
+        }
         System.out.println("Eventos en la pila:");
         while (actual != null) {
             System.out.println("- " + actual.evento);

@@ -94,8 +94,10 @@ public class Arbol {
 
     public void imprimirInOrden() {
         System.out.println("Recorrido InOrden:");
+        System.out.println("[");
         imprimirInOrden(raiz);
         System.out.println();
+        System.out.println("]");
     }
     
     private void imprimirInOrden(NodoArbol nodo) {

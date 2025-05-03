@@ -77,8 +77,14 @@ public class Simulacion {
                         guardarNodosAvl();
                         /// guardar nodos en la lista
                         guardarNodosLista();
+
+                        /// imprimir arbol
+                      
+
                         /// iniciar la simulacion
                         iniciarSimulacion();
+
+
 
                         return; // detener el metodo despues de la simulacion
                     } else {
@@ -120,9 +126,11 @@ public class Simulacion {
 
     public void iniciarSimulacion() throws Exception {
 
+        mapa.imprimirMapa();
+
         int tmpOption = 0;
         do {
-            mapa.imprimirMapa();
+           
             System.out.println("Seleccione una opcion: ");
             System.out.println("1) Mover trafico ");
             System.out.println("2) Ingresar nuevo vehiculo");
@@ -134,6 +142,7 @@ public class Simulacion {
             scanner.nextLine();
             switch (tmpOption) {
                 case 1:
+
                     moverTrafico();
                     // limpiar arbol 
                     limpiarArbol();
@@ -141,6 +150,10 @@ public class Simulacion {
                     guardarNodosAvl();
                     /// guardar nodos en la lista
                     guardarNodosLista();
+
+                    /// imprimir arbol
+                    mapa.imprimirMapa();
+
                     break;
                 case 2:
                     ingresarNuevoVehiculo();
@@ -155,6 +168,7 @@ public class Simulacion {
                     break;
                 case 5:
                     verReporte();
+                    mapa.mostrarEventos();
                     System.out.println("Simulación terminada.");
 
                     return; // salir del ciclo
@@ -202,7 +216,6 @@ public class Simulacion {
 
     public void verEstadoTrafico() {
 
-
         /// estado de trafico // nodos 
         /// ver el estado de los nodos
         System.out.println("__________________________");
@@ -236,6 +249,7 @@ public class Simulacion {
     }
 
     public void verReporte()  {
+
 
         // insertar nodos...
         VisualizadorAVL.guardarArbol(arbolAVL.getNodoRaiz(), "ArbolNodos" );

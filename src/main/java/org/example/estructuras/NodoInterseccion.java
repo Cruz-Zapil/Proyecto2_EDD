@@ -17,6 +17,7 @@ public class NodoInterseccion {
     /// 1 semaforo, 2 rotonda, 3 cruce, 4 bloqueo
     private String tipo="";
     private int catidadVehiculos=0;
+    private int cantVehiculosAtendidos=0;
 
     /// pila de evento de este interseccion 
     private PilaEventos pilaEventos;
@@ -159,9 +160,17 @@ public class NodoInterseccion {
                      // guardarlo en cola de destino
                     destino.encolar(v);
                 } else {
+
+                    /// guardar evento en la pila
+                    /// guardar vehiculo en la pila
+                    pilaEventos.apilar("El vehiculo:" +v.getPlaca() +" paso por: "+ this.fila + this.columna);
+
                     moverVehiculoHaciaDireccion(v);
                     // Aquí podrías volver a encolarlo si aún no llega
-                    // cola.encolar(v);
+                    cantVehiculosAtendidos++;
+
+
+
                 }
             }
 
@@ -219,6 +228,19 @@ public class NodoInterseccion {
     }
     ///// sumulacion de trafico:
     /////
+    /// 
+
+    /// mostrar eventos
+    
+    public void mostrarEventos() {
+
+        System.out.println("--------------------");
+        System.out.println("Eventos en la pila de " + this.fila + this.columna + ":");
+        System.out.println("Vehiculos atendidos: " + cantVehiculosAtendidos);
+        pilaEventos.imprimir();
+
+        System.out.println("--------------------");
+    }
 
     // obtener colas de prioridad
 
