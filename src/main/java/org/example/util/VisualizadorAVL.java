@@ -12,8 +12,6 @@ import java.nio.file.Paths;
 
 public class VisualizadorAVL {
 
-
-
     public static void guardarArbol(NodoArbol raiz, String nombreArchivo) {
         try {
             // 1. Generar el contenido DOT
@@ -52,7 +50,7 @@ public class VisualizadorAVL {
         // Obtener datos del nodo
         String id = nodo.getInterseccion().getPosicion(); 
         int complejidad =   nodo.getInterseccion().getComplejidad(); 
-        String nombre = nodo.getInterseccion().getTipo();
+        String nombre = nodo.getInterseccion().getTipo() + " " + nodo.getInterseccion().getTipoInterseccion();
         int altura = nodo.getAltura();
         
         // Formatear nodo con ID, complejidad y altura

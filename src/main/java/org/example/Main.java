@@ -1,7 +1,5 @@
 package org.example;
 
-import org.example.estructuras.Mapa;
-import org.example.objeto.Vehiculo;
 
 import java.util.Scanner;
 
@@ -12,11 +10,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-
-        System.out.println("    a");
-        System.out.println("⛟🏍️a");
-        System.out.println("    a");
-        System.out.println("🛻🚑  \uD83E\uDDDF ");
 
 
         /// leer mi archivo.

@@ -5,7 +5,7 @@ import org.example.objeto.Vehiculo;
 public class TablaHashPlaca {
 
 
-    private static final int CAPACIDAD = 60; // Tamaño inicial del arreglo
+    private static final int CAPACIDAD = 60; // max 60 vehiculos 
     private Vehiculo[] tabla;
     private int tamaño;
 
@@ -28,29 +28,29 @@ public class TablaHashPlaca {
         int indice = hash(placa);
         int intentos = 0;
         while (tabla[indice] != null && !tabla[indice].getPlaca().equals(placa)) {
-            indice = (indice + 1) % CAPACIDAD; // Sondeo lineal
+            indice = (indice + 1) % CAPACIDAD; // pirmera pasada 
             intentos++;
-            if (intentos >= CAPACIDAD) return -1; // Tabla llena
+            if (intentos >= CAPACIDAD) return -1; // tabal llena 
         }
         return indice;
     }
 
     // Insertar vehículo (evita duplicados)
     public boolean insertar(Vehiculo vehiculo) {
-        if (tamaño >= CAPACIDAD) return false; // Tabla llena
+        if (tamaño >= CAPACIDAD) return false; // tabla llena 
 
         int indice = obtenerIndice(vehiculo.getPlaca());
-        if (indice == -1) return false; // No se encontró espacio
+        if (indice == -1) return false; // no hay  espacio
 
         if (tabla[indice] == null) {
             tabla[indice] = vehiculo;
             tamaño++;
             return true;
         }
-        return false; // Placa duplicada
+        return false; // codigo hash duplicada
     }
 
-    // Buscar vehículo por placa (O(1) promedio)
+    // buscar un vehículo por placa (O(1) promedio)
 
     public Vehiculo buscar(String placa) {
         int indice = obtenerIndice(placa);

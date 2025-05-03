@@ -1,0 +1,22 @@
+digraph ArbolAVL {
+  node [shape=record, style=filled, fillcolor=lightblue];
+  edge [arrowhead=vee];
+
+  A1 [label="Id: A1\nTipo: Rotonda 2\nComplej: 2\nAltura: 3"];
+  A1 -> B3 [label="Izq"];
+  B3 [label="Id: B3\nTipo: Semaforo 1\nComplej: 1\nAltura: 1"];
+  nullB3 [shape=point];
+  B3 -> nullB3;
+  nullB3 [shape=point];
+  B3 -> nullB3;
+  A1 -> A0 [label="Der"];
+  A0 [label="Id: A0\nTipo: Bloqueo 4\nComplej: 4\nAltura: 2"];
+  A0 -> B4 [label="Izq"];
+  B4 [label="Id: B4\nTipo: Cruce 3\nComplej: 3\nAltura: 1"];
+  nullB4 [shape=point];
+  B4 -> nullB4;
+  nullB4 [shape=point];
+  B4 -> nullB4;
+  nullA0 [shape=point];
+  A0 -> nullA0;
+}

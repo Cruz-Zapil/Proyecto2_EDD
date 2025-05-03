@@ -19,7 +19,7 @@ public class Simulacion {
     private ListaNewVehiculo listaVehiculos;
     private TablaHashPlaca tabla = new TablaHashPlaca();
     private Mapa mapa;
-    private Arbol arbolAVL = new Arbol();
+    private Arbol arbolAVL;
     private ListaNodoIntersec listaNodosInt = new ListaNodoIntersec();
 
     public void leerArchivo() throws Exception {
@@ -27,6 +27,9 @@ public class Simulacion {
         listaVehiculos = LectorCSV.leerCSV();
         // creamos mapa primero:
         crearMapa();
+
+        // ingresar vehiculos A LA tabla 
+
         ingresarVehiculosMapa();
         /// guardar el registro de los nodos
         guardarNodosAvl();
@@ -93,6 +96,9 @@ public class Simulacion {
         Vehiculo tmpVehiculo = listaVehiculos.getPrimerVehiculo();
         while (tmpVehiculo != null) {
 
+            /// ingresamos vehiculo a la tabla hash
+            tabla.insertar(tmpVehiculo); 
+
             String nodoOrigen = tmpVehiculo.getOrigen();
             String fila = utils.extraerFila(nodoOrigen);
             int columna = utils.extraerColumna(nodoOrigen);
@@ -121,13 +127,16 @@ public class Simulacion {
             System.out.println("1) Mover trafico ");
             System.out.println("2) Ingresar nuevo vehiculo");
             System.out.println("3) Ver estado de trafico");
-            System.out.println("4) Terminar Simulacion");
+            System.out.println("4) Hacer un Busqueda");
+            System.out.println("5) Terminar Simulacion");
 
             tmpOption = scanner.nextInt();
             scanner.nextLine();
             switch (tmpOption) {
                 case 1:
                     moverTrafico();
+                    // limpiar arbol 
+                    limpiarArbol();
                     /// guardar el registro de los nodos
                     guardarNodosAvl();
                     /// guardar nodos en la lista
@@ -142,6 +151,9 @@ public class Simulacion {
                     verEstadoTrafico();
                     break;
                 case 4:
+                    hacerBusqueda();
+                    break;
+                case 5:
                     verReporte();
                     System.out.println("Simulación terminada.");
 
@@ -159,6 +171,7 @@ public class Simulacion {
         /// cada moviento seria como un segundo cada enter seria un segundo acumulado 
         NodoInterseccion nodo;
         boolean vehiculoMovido = false;
+
         while (!listaNodosInt.estaVacia()) {
             nodo = listaNodosInt.getPrimerInterseccion();
          
@@ -170,17 +183,17 @@ public class Simulacion {
                 if (vehiculoMovido) {
                     mapa.imprimirMapa(); // imprimir cuando hubo movimiento
                 }
-             
-                
             } 
-            
         }
-
     }
 
     /// guardar nodos en el arbol avl
     public void guardarNodosAvl() {
-        mapa.ordenarEnArbol(arbolAVL);
+        mapa.ordenarEnArbol(arbolAVL = new Arbol());
+    }
+
+    public void limpiarArbol(){
+        arbolAVL = null;
     }
 
     public void guardarNodosLista() {
@@ -189,22 +202,43 @@ public class Simulacion {
 
     public void verEstadoTrafico() {
 
+
         /// estado de trafico // nodos 
         /// ver el estado de los nodos
+        System.out.println("__________________________");
+        System.out.println("__________________________");
         System.out.println("Estado de tráfico:");
         System.out.println("Ingrese el nodo que desea consultar (ej. A1): ");
         String nodoPosicion = scanner.nextLine();
         String fila = utils.extraerFila(nodoPosicion);
         int columna = utils.extraerColumna(nodoPosicion);
         NodoInterseccion nodo = mapa.getNodo(fila, columna);
-        
+
+        if (nodo != null) {
+            System.out.println("Estado del nodo " + nodoPosicion + ":");
+            System.out.println("Tipo de intersección: " + nodo.getTipo());
+            System.out.println("Complejidad: " + nodo.getComplejidad());
+          //  System.out.println("Tiempo de espera: " + nodo.getTiempoEspera());
+            System.out.println("Vehículos en cola: " + nodo.getCantVehiculos()  );
+        } else {
+            System.out.println("Nodo no encontrado.");
+        }
+
+        /// ver reporte del arbol.
+        /// ACTUALIZAR EL ARBOL
+        limpiarArbol();
+        guardarNodosAvl();
+        verReporte();
+
+        System.out.println("__________________________");
+        System.out.println("__________________________");
 
     }
 
-    public void verReporte() throws Exception {
+    public void verReporte()  {
 
         // insertar nodos...
-        VisualizadorAVL.guardarArbol(arbolAVL.getNodoRaiz(), "hola" );
+        VisualizadorAVL.guardarArbol(arbolAVL.getNodoRaiz(), "ArbolNodos" );
         arbolAVL.imprimirInOrden();
 
     }
@@ -239,6 +273,22 @@ public class Simulacion {
         System.out.println("El tamanio de la tabla seria: " + tamanioTabla);
         /// creamos la tabla con el nodo mayor.
         mapa = new Mapa(tamanioTabla+1);
+    }
+
+    public void hacerBusqueda() {
+        System.out.println("Ingrese la placa del vehículo que desea buscar: ");
+        String placa = scanner.nextLine();
+        Vehiculo vehiculoEncontrado = tabla.buscar(placa);
+
+        if (vehiculoEncontrado != null) {
+            System.out.println("Vehículo encontrado: " + vehiculoEncontrado);
+            System.out.println("Tipo: " + vehiculoEncontrado.getLogo());
+            System.out.println("Origen: " + vehiculoEncontrado.getOrigen());
+            System.out.println("Destino: " + vehiculoEncontrado.getDestinoFila()+ vehiculoEncontrado.getDestinoColumna());
+
+        } else {
+            System.out.println("Vehículo no encontrado.");
+        }
     }
 
 }

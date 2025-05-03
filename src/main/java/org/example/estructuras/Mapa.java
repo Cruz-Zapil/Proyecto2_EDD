@@ -192,13 +192,20 @@ public class Mapa {
     }
 
     public void ordenarEnArbol(Arbol arbolAVL) {
+
         NodoInterseccion filaActual = inicio;
+        if (arbolAVL == null) {
+            arbolAVL = new Arbol();
+        }
 
         while (filaActual != null) {
             NodoInterseccion columnaActual = filaActual;
 
             while (columnaActual != null) {
                 // ingresar e en el arbol Alv
+                /// recalculamos la complejidad antes de ingresar al arbol 
+                columnaActual.calcularComplejidad();
+
                 arbolAVL.insertar(columnaActual);
 
                 columnaActual = columnaActual.getDerecha();

@@ -15,6 +15,7 @@ public class NodoInterseccion {
     private int tipoInterseccion;
     /// 1 semaforo, 2 rotonda, 3 cruce, 4 bloqueo
     private String tipo="";
+    private int catidadVehiculos=0;
 
     private boolean pasoAbierto=false;
     private int tiempo=1;
@@ -272,6 +273,18 @@ public class NodoInterseccion {
     public String getTipo(){
         return this.tipo;
     }
+
+    public int getTipoInterseccion() {
+        return tipoInterseccion;
+    }
+
+    public int getCantVehiculos() {
+        return this.norte.getCantCarros() +
+                this.sur.getCantCarros() +
+                this.este.getCantCarros() +
+                this.oeste.getCantCarros();
+    }
+
 
         
 

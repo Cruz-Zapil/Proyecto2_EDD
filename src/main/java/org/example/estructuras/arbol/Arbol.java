@@ -21,7 +21,11 @@ public class Arbol {
         } else if (interseccion.getComplejidad() > nodo.getInterseccion().getComplejidad()) {
             nodo.setDerecha(insertar(nodo.getDerecha(), interseccion));
         } else {
-            nodo.setDerecha(insertar(nodo.getDerecha(), interseccion)); // Inserta duplicados a la derecha
+            
+            if (interseccion.getCantVehiculos() > 0){
+                nodo.setDerecha(insertar(nodo.getDerecha(), interseccion)); // Inserta duplicados a la derecha
+            }
+
         }
 
         nodo.setAltura(1 + Math.max(altura(nodo.getIzquierda()), altura(nodo.getDerecha())));
