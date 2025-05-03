@@ -1,6 +1,7 @@
 package org.example.estructuras;
 
 import org.example.estructuras.colaPrioridad.ColaPrioridad;
+import org.example.estructuras.pila.PilaEventos;
 import org.example.objeto.Vehiculo;
 
 import java.util.Random;
@@ -17,6 +18,9 @@ public class NodoInterseccion {
     private String tipo="";
     private int catidadVehiculos=0;
 
+    /// pila de evento de este interseccion 
+    private PilaEventos pilaEventos;
+
     private boolean pasoAbierto=false;
     private int tiempo=1;
 
@@ -29,6 +33,7 @@ public class NodoInterseccion {
         this.oeste = new ColaPrioridad();
         this.destino = new ColaPrioridad();
         this.arriba = this.abajo = this.izquierda = this.derecha = null;
+        this.pilaEventos = new PilaEventos();
 
         this.tiempo = this.tipoInterseccion;
 
