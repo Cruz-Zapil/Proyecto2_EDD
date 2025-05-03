@@ -21,7 +21,7 @@ public class Vehiculo  {
 
     // se usa este constructor para un nuevo vehiculo
     public Vehiculo(String tipo, String placa,String origen, String destino) {
-        System.out.println(" nuevo vehiculo ");
+
         this.tipo = tipo;
         this.placa = placa;
         this.origen = origen;
@@ -31,7 +31,6 @@ public class Vehiculo  {
        // tiempoEspera();
 
         /// asignar logo y prioridad
-
         setLogoAndPrioridad();
     }
 
@@ -80,30 +79,30 @@ public class Vehiculo  {
 
     public void setLogoAndPrioridad(){
 
-        boolean soportaEmiji  = checkEmojiSupport();
+        boolean soportaEmiji  = true;
         if(soportaEmiji){
             switch (this.tipo){
                 case "AMBULANCIA":
                     this.logo= "🚑";
-                    this.prioridad =5;
+                    this.prioridad = (this.prioridad == 0) ? 5 : this.prioridad;
                     break;
                 case "POLICIA":
-                    this.logo=  "\uD83D\uDE93";
-                    this.prioridad =4;
+                    this.logo=  "🏍️";
+                    this.prioridad = (this.prioridad == 0) ? 4 : this.prioridad;
                     break;
 
-                case "TRASPORTE":
-                    this.logo= "\uD83D\uDE8C";
-                    this.prioridad =3;
+                case "TRANSPORTE":
+                    this.logo= "🚌";
+                    this.prioridad = (this.prioridad == 0) ? 3 : this.prioridad;
                     break;
 
                 case "PARTICULAR":
-                    this.logo=  "🛻";
-                    this.prioridad =2;
+                    this.logo=  "🚗";
+                    this.prioridad = (this.prioridad == 0) ? 2 : this.prioridad;
                     break;
                 default:
                     this.logo ="V";
-                    this.prioridad =1;
+                    this.prioridad = (this.prioridad == 0) ? 1 : this.prioridad;
                     break;
             }
         }else{
@@ -142,14 +141,14 @@ public class Vehiculo  {
         return logo;
     }
 
-    private boolean checkEmojiSupport() {
-        try {
-            String testEmoji = "\uD83D\uDE97";
-            System.out.print(testEmoji);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+
+    /// obtener coordenadas
+    public String getDestinoFila() {
+        return destino.substring(0, 1); // la letra
+    }
+
+    public int getDestinoColumna(){
+        return Integer.parseInt(destino.substring(1));
     }
 
 

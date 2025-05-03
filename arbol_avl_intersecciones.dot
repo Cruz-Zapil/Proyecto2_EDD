@@ -1,0 +1,10 @@
+digraph ArbolAVL {
+node [shape=record, style=filled, fillcolor=lightgray];
+nodo0 [label="<f0> |<f1> A1\nComp: 3 |<f2>"];
+nodo0:f0 -> nodo1615039080:f1;
+nodo1 [label="<f0> |<f1> A2\nComp: 2 |<f2>"];
+nodo1:f0 -> nodo336484883:f1;
+nodo2 [label="<f0> |<f1> A3\nComp: 1 |<f2>"];
+nodo0:f2 -> nodo876213901:f1;
+nodo3 [label="<f0> |<f1> A0\nComp: 4 |<f2>"];
+}

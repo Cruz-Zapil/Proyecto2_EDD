@@ -1,6 +1,7 @@
 package org.example.estructuras;
 
 import org.example.estructuras.colaPrioridad.ColaPrioridad;
+import org.example.objeto.Vehiculo;
 
 import java.util.Random;
 
@@ -8,10 +9,12 @@ public class NodoInterseccion {
 
     private String fila;  //  letras  A-Z
     private int columna;
-    private ColaPrioridad norte, sur, este, oeste;
+    private ColaPrioridad norte, sur, este, oeste, destino;
     private NodoInterseccion arriba, abajo, izquierda, derecha;
     private int complejidad =0;
     private int tipoInterseccion;
+    /// 1 semaforo, 2 rotonda, 3 cruce, 4 bloqueo
+    private String tipo="";
 
     private boolean pasoAbierto=false;
     private int tiempo=1;
@@ -23,6 +26,7 @@ public class NodoInterseccion {
         this.sur = new ColaPrioridad();
         this.este = new ColaPrioridad();
         this.oeste = new ColaPrioridad();
+        this.destino = new ColaPrioridad();
         this.arriba = this.abajo = this.izquierda = this.derecha = null;
 
         this.tiempo = this.tipoInterseccion;
@@ -53,7 +57,7 @@ public class NodoInterseccion {
     /// calcular timpo
     /// cada enter es un "Timepo" menos
 
-    public void enter(){
+    public void actulizarTiempo(){
         if(tiempo > 1){
             tiempo--;
             pasoAbierto = false;
@@ -82,20 +86,26 @@ public class NodoInterseccion {
         if (numero == 1 || numero == 6){
             /// semaforo
             this.tipoInterseccion = 1;
+            this.tipo = "Semaforo";
         }else if (numero == 2 || numero==5) {
             /// rotonda
             this.tipoInterseccion = 2;
+            this.tipo = "Rotonda";
         }else if ( numero == 3){
             /// cruce
             this.tipoInterseccion = 3;
+            this.tipo = "Cruce";
         }else {
             //  bloqueo
             this.tipoInterseccion = 4;
+            this.tipo = "Bloqueo";
         }
     }
 
     /// obtener la complejidad
     public int getComplejidad(){
+        calcularComplejidad();
+        /// cada vez que se llama a la funcion se recalcula
         return this.complejidad;
     }
 
@@ -113,14 +123,84 @@ public class NodoInterseccion {
         }
         return null;
     }
-    /// getters and setters
-    public String getFila() {
-        return fila;
+
+
+    ///// sumulacion de trafico:
+    /////
+    /////
+
+    public void moverVehiculos() {
+        moverDesdeCola(norte);
+        moverDesdeCola(sur);
+        moverDesdeCola(este);
+        moverDesdeCola(oeste);
     }
 
-    public int getColumna() {
-        return columna;
+    private void moverDesdeCola(ColaPrioridad cola) {
+        if (!cola.estaVacio()) {
+            Vehiculo v = cola.desencolar(); // obtener vehiculo
+            if (v != null) {
+                if (esDestino(v)) {
+                    System.out.println(" llegó a su destino ");
+                     // guardarlo en cola de destino
+                    destino.encolar(v);
+                } else {
+                    moverVehiculoHaciaDireccion(v);
+                    // Aquí podrías volver a encolarlo si aún no llega
+                    // cola.encolar(v);
+                }
+            }
+        }
     }
+
+
+    private void moverVehiculoHaciaDireccion(Vehiculo vehiculo) {
+        char filaActual = this.fila.charAt(0);
+        char filaDestino = vehiculo.getDestinoFila().charAt(0);
+        int columnaDestino = vehiculo.getDestinoColumna();
+
+        if (filaDestino > filaActual && this.abajo != null) {
+            moverVehiculoHacia(this.abajo, vehiculo, "arriba");
+        } else if (filaDestino < filaActual && this.arriba != null) {
+            moverVehiculoHacia(this.arriba, vehiculo, "abajo");
+        } else if (columnaDestino > this.columna && this.derecha != null) {
+            moverVehiculoHacia(this.derecha, vehiculo, "izquierda");
+        } else if (columnaDestino < this.columna && this.izquierda != null) {
+            moverVehiculoHacia(this.izquierda, vehiculo, "derecha");
+        }
+    }
+
+    private void moverVehiculoHacia(NodoInterseccion siguiente, Vehiculo vehiculo, String direccionOrigen) {
+        siguiente.recibirVehiculo(vehiculo, direccionOrigen);
+    }
+
+
+    /// chequer si el auto llego a su destino:
+    private boolean esDestino(Vehiculo vehiculo) {
+        String filaDestino = vehiculo.getDestinoFila();  //  letras
+        int columnaDestino = vehiculo.getDestinoColumna(); //  numero de columna
+
+        return this.fila.equals(filaDestino) && this.columna == columnaDestino;
+    }
+
+    public void recibirVehiculo(Vehiculo vehiculo, String direccionOrigen) {
+        switch (direccionOrigen) {
+            case "arriba":
+                this.sur.encolar(vehiculo);  // vino de arriba, entra por el sur
+                break;
+            case "abajo":
+                this.norte.encolar(vehiculo); // vino de abajo, entra por el norte
+                break;
+            case "izquierda":
+                this.este.encolar(vehiculo);  // vino de la izquierda, entra por el este
+                break;
+            case "derecha":
+                this.oeste.encolar(vehiculo); // vino de la derecha, entra por el oeste
+                break;
+        }
+    }
+    ///// sumulacion de trafico:
+    /////
 
     // obtener colas de prioridad
 
@@ -136,7 +216,6 @@ public class NodoInterseccion {
     public ColaPrioridad getOeste() {
         return oeste;
     }
-
 
     /// entrelazar nodos
     public NodoInterseccion getArriba() {
@@ -164,4 +243,24 @@ public class NodoInterseccion {
     public void setDerecha(NodoInterseccion derecha){
         this.derecha = derecha;
     }
+
+        /// getters and setters
+        public String getFila() {
+            return fila;
+        }
+    
+        public int getColumna() {
+            return columna;
+        }
+    
+        public String getPosicion() {
+            return fila + String.valueOf(columna);
+        }
+
+    public String getTipo(){
+        return this.tipo;
+    }
+
+        
+
 }

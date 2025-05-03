@@ -1,0 +1,42 @@
+digraph ArbolAVL {
+  node [shape=record, style=filled, fillcolor=lightblue];
+  edge [arrowhead=vee];
+
+  B0 [label="Id: B0\nTipo: Cruce\nComplej: 3\nAltura: 5"];
+  B0 -> B1 [label="Izq"];
+  B1 [label="Id: B1\nTipo: Rotonda\nComplej: 2\nAltura: 4"];
+  nullB1 [shape=point];
+  B1 -> nullB1;
+  B1 -> B2 [label="Der"];
+  B2 [label="Id: B2\nTipo: Rotonda\nComplej: 2\nAltura: 3"];
+  nullB2 [shape=point];
+  B2 -> nullB2;
+  B2 -> C1 [label="Der"];
+  C1 [label="Id: C1\nTipo: Rotonda\nComplej: 2\nAltura: 2"];
+  nullC1 [shape=point];
+  C1 -> nullC1;
+  C1 -> C2 [label="Der"];
+  C2 [label="Id: C2\nTipo: Rotonda\nComplej: 2\nAltura: 1"];
+  nullC2 [shape=point];
+  C2 -> nullC2;
+  nullC2 [shape=point];
+  C2 -> nullC2;
+  B0 -> A1 [label="Der"];
+  A1 [label="Id: A1\nTipo: Cruce\nComplej: 10\nAltura: 3"];
+  A1 -> A2 [label="Izq"];
+  A2 [label="Id: A2\nTipo: Bloqueo\nComplej: 4\nAltura: 2"];
+  A2 -> C0 [label="Izq"];
+  C0 [label="Id: C0\nTipo: Cruce\nComplej: 3\nAltura: 1"];
+  nullC0 [shape=point];
+  C0 -> nullC0;
+  nullC0 [shape=point];
+  C0 -> nullC0;
+  nullA2 [shape=point];
+  A2 -> nullA2;
+  A1 -> A0 [label="Der"];
+  A0 [label="Id: A0\nTipo: Cruce\nComplej: 23\nAltura: 1"];
+  nullA0 [shape=point];
+  A0 -> nullA0;
+  nullA0 [shape=point];
+  A0 -> nullA0;
+}

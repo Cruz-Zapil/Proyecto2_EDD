@@ -10,11 +10,13 @@ import java.util.Scanner;
 public class Main {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("⛟ | 🏍️");
-        System.out.println("🛻 | 🚑  \uD83E\uDDDF ");
+        System.out.println("    a");
+        System.out.println("⛟🏍️a");
+        System.out.println("    a");
+        System.out.println("🛻🚑  \uD83E\uDDDF ");
 
 
         /// leer mi archivo.
@@ -40,7 +42,7 @@ public class Main {
         do {
 
             // crar una nueva silumacion:
-            Simulacion simulacion1 = new Simulacion();
+           Simulacion simulacion1 = new Simulacion();
 
             System.out.println();
             System.out.println();
@@ -66,11 +68,11 @@ public class Main {
 
                 case 1:
                     System.out.println(" Leer Archivo ");
-                    simulacion1.leerArchivo();
+                   simulacion1.leerArchivo();
                     break;
                 case 2:
                     System.out.println(" Crear vehiculo manulamente");
-                    simulacion1.ingresarVehiculo();
+                   simulacion1.ingresarVehiculoManual();
                     break;
                 case 3:
                     System.out.println(" Ver reporte");
@@ -91,7 +93,10 @@ public class Main {
 
         } while (simulacion);
 
-
-
     }
 }
+
+
+
+
+

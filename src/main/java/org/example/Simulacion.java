@@ -2,10 +2,12 @@ package org.example;
 
 import org.example.estructuras.Mapa;
 import org.example.estructuras.NodoInterseccion;
-import org.example.estructuras.arbol.ArbolAVL;
+import org.example.estructuras.arbol.Arbol;
 import org.example.estructuras.hash.TablaHashPlaca;
 import org.example.estructuras.lista.ListaNewVehiculo;
 import org.example.objeto.Vehiculo;
+import org.example.util.LectorCSV;
+import org.example.util.VisualizadorAVL;
 import org.example.util.utils;
 
 import java.util.Scanner;
@@ -16,14 +18,21 @@ public class Simulacion {
     private ListaNewVehiculo listaVehiculos;
     private TablaHashPlaca tabla = new TablaHashPlaca();
     private Mapa mapa;
-    private ArbolAVL arbolAVL = new ArbolAVL();
+    private Arbol arbolAVL = new Arbol();
 
+    public void leerArchivo() throws Exception {
 
-    public void leerArchivo(){
+        listaVehiculos = LectorCSV.leerCSV();
+        // creamos mapa primero:
+        crearMapa();
+        ingresarVehiculosMapa();
+        /// guardar el registro de los nodos
+        guardarNodosAvl();
+        iniciarSimulacion();
 
     }
 
-    public void ingresarVehiculo() {
+    public void ingresarVehiculoManual() throws Exception {
 
         int contadorVehiculos = 0;
         int opcion;
@@ -45,17 +54,21 @@ public class Simulacion {
                 case 1:
 
                     ingresarNuevoVehiculo();
-
                     contadorVehiculos++;
 
                     System.out.println("Total vehículos ingresados: " + contadorVehiculos);
-
                     break;
 
                 case 2:
                     if (contadorVehiculos >= 5) {
                         System.out.println("\nIniciando simulación con " + contadorVehiculos + " vehículos...");
+                        // creamos mapa primero:
+                        crearMapa();
                         ingresarVehiculosMapa();
+                        /// guardar el registro de los nodos
+                        guardarNodosAvl();
+                        iniciarSimulacion();
+
                         return; // detener el metodo despues de la simulacion
                     } else {
                         System.out.println("Debe ingresar al menos 5 vehículo antes de comenzar.");
@@ -67,51 +80,38 @@ public class Simulacion {
         } while (true);
     }
 
-
     public void ingresarVehiculosMapa() {
 
-        int tamanioTabla = listaVehiculos.getTamanioTabla();
-        System.out.println(" El tamanio de la tabla seria: " + tamanioTabla);
-        /// creamos la tabla con el nodo mayor.
-         mapa = new Mapa(tamanioTabla);
+        Vehiculo tmpVehiculo = listaVehiculos.getPrimerVehiculo();
+        while (tmpVehiculo != null) {
 
-         Vehiculo tmpVehiculo = listaVehiculos.getPrimerVehiculo();
-         while (tmpVehiculo != null){
+            String nodoOrigen = tmpVehiculo.getOrigen();
+            String fila = utils.extraerFila(nodoOrigen);
+            int columna = utils.extraerColumna(nodoOrigen);
 
-             String nodoOrigen = tmpVehiculo.getOrigen();
-             String fila = utils.extraerFila(nodoOrigen);
-             int columna = utils.extraerColumna(nodoOrigen);
+            NodoInterseccion nodo = mapa.getNodo(fila, columna);
 
-             NodoInterseccion  nodo = mapa.getNodo(fila, columna);
-
-             if (nodo != null){
-               nodo.getColaDisponible().encolar(tmpVehiculo);
-
-             }else{
-                 System.out.println("Posicion fuera de rango no se puede ingresar el vehiculo");
-             }
-             tmpVehiculo = listaVehiculos.getPrimerVehiculo();
-         }
-
-         /// empezar a moverç
-        guardarNodosAvl();
-        iniciarSimulacion();
-
+            if (nodo != null) {
+                if (nodo.getColaDisponible() != null) {
+                    nodo.getColaDisponible().encolar(tmpVehiculo);
+                } else {
+                    System.out.println("Avenida llena de vehiculos, no se pueden colocar mas");
+                }
+            } else {
+                System.out.println("Posicion fuera de rango no se puede ingresar el vehiculo");
+            }
+            tmpVehiculo = listaVehiculos.getPrimerVehiculo();
+        }
     }
 
+    public void iniciarSimulacion() throws Exception {
 
-    public void iniciarSimulacion(){
-
-        int tmpOption =0;
+        int tmpOption = 0;
         do {
             mapa.imprimirMapa();
-
-            System.out.println();
-            System.out.println();
-
             System.out.println("Seleccione una opcion: ");
-            System.out.println("1) Ingresar nuevo vehiculo ");
-            System.out.println("2) Mover trafico");
+            System.out.println("1) Mover trafico ");
+            System.out.println("2) Ingresar nuevo vehiculo");
             System.out.println("3) Ver estado de trafico");
             System.out.println("4) Terminar Simulacion");
 
@@ -119,10 +119,14 @@ public class Simulacion {
             scanner.nextLine();
             switch (tmpOption) {
                 case 1:
-                    ingresarNuevoVehiculo();
+                    moverTrafico();
+                    /// guardar el registro de los nodos
+                    guardarNodosAvl();
                     break;
                 case 2:
-                    moverTrafico();
+                    ingresarNuevoVehiculo();
+                    ingresarVehiculosMapa();
+
                     break;
                 case 3:
                     verEstadoTrafico();
@@ -134,29 +138,36 @@ public class Simulacion {
                     System.out.println(" Ingrese una opcion valida ");
             }
 
-        }while (true);
+        } while (true);
 
     }
 
     /// mover trafico primero los mas congestionados
-    public void moverTrafico(){
+    public void moverTrafico() {
+        NodoInterseccion nodo;
+
+        
 
     }
 
     /// guardar nodos en el arbol avl
-    public void guardarNodosAvl(){
+    public void guardarNodosAvl() {
         mapa.ordenarEnArbol(arbolAVL);
     }
 
-    public void verEstadoTrafico(){
+    public void verEstadoTrafico() {
 
     }
 
-    public void verReporte(){
+    public void verReporte() throws Exception {
+
+        // insertar nodos...
+        VisualizadorAVL.guardarArbol(arbolAVL.getNodoRaiz(), "hola" );
+        arbolAVL.imprimirInOrden();
 
     }
 
-    public void ingresarNuevoVehiculo()  {
+    public void ingresarNuevoVehiculo() {
 
         System.out.println("\nIngresando nuevo vehículo...");
         System.out.print("Ingrese tipo (Ambulancia/Policia/Transport/Particular): ");
@@ -173,18 +184,19 @@ public class Simulacion {
 
         // Crear y almacenar el vehículo
 
-        Vehiculo nuevoVehiculo = new Vehiculo(tipo, placa ,origen, destino );
+        Vehiculo nuevoVehiculo = new Vehiculo(tipo, placa, origen, destino);
 
         listaVehiculos.ingresarOrdenado(nuevoVehiculo);
         tabla.insertar(nuevoVehiculo);
         System.out.println("¡Vehículo agregado exitosamente!");
 
-
     }
 
-
-
-
-
+    public void crearMapa() {
+        int tamanioTabla = listaVehiculos.getTamanioTabla();
+        System.out.println("El tamanio de la tabla seria: " + tamanioTabla);
+        /// creamos la tabla con el nodo mayor.
+        mapa = new Mapa(tamanioTabla);
+    }
 
 }

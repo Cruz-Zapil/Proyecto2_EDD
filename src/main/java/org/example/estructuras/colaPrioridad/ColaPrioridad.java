@@ -1,6 +1,5 @@
 package org.example.estructuras.colaPrioridad;
 import org.example.objeto.Vehiculo;
-import java.util.NoSuchElementException;
 
 public class ColaPrioridad {
 
@@ -15,9 +14,7 @@ public class ColaPrioridad {
     /// ingresar vehiculo
     public void encolar(Vehiculo vehiculo){
 
-        if (this.longitud >= longituMax ){
-            throw  new IllegalStateException("La avenidad esta llena (maximo de 7)");
-        }
+
         NodoCola nuevoNodo = new NodoCola(vehiculo);
 
         if (inicio == null || vehiculo.getPrioridad() > inicio.vehiculo.getPrioridad() ){
@@ -35,15 +32,17 @@ public class ColaPrioridad {
         longitud++;
     }
 
-    public Vehiculo desencolar(){
-        if(inicio==null){
-            throw  new NoSuchElementException("La avenidad no tiene vehiculos");
+    public Vehiculo desencolar() {
+        if (inicio == null) {
+            return null;
         }
-        Vehiculo vehiculo= inicio.vehiculo;
-        inicio = inicio.siguiente;
+
+        Vehiculo vehiculo = inicio.vehiculo;
+        inicio = inicio.siguiente; // apunta al siguiente
         longitud--;
-        return  vehiculo;
+        return vehiculo;
     }
+
 
     public StringBuilder colaVehiculoH1(){
         StringBuilder tmp = new StringBuilder();
@@ -52,10 +51,11 @@ public class ColaPrioridad {
             if (inicio.siguiente!=null){
                 tmp.append(inicio.siguiente.vehiculo.getLogo());
             }else {
-                tmp.append("⬅");
+                tmp.append(" ⬅");
             }
         }else {
-            tmp.append("⬅ ⬅️");
+
+            tmp.append(" ⬅ ⬅");
         }
         return tmp;
     }
@@ -67,10 +67,10 @@ public class ColaPrioridad {
             if (inicio.siguiente!=null){
                 tmp.append(inicio.siguiente.vehiculo.getLogo());
             }else {
-                tmp.append("➡");
+                tmp.append("➡ ");
             }
         }else {
-            tmp.append("➡ ➡️");
+            tmp.append("➡ ➡ ");
         }
         return tmp;
     }
@@ -80,7 +80,7 @@ public class ColaPrioridad {
         if (inicio!=null){
             tmp.append(inicio.vehiculo.getLogo());
         }else {
-            tmp.append("-");
+            tmp.append("- ");
         }
         return tmp;
     }
@@ -91,10 +91,10 @@ public class ColaPrioridad {
             if (inicio.siguiente!=null){
                 tmp.append(inicio.vehiculo.getLogo());
             }else {
-                tmp.append("-");
+                tmp.append("- ");
             }
         }else {
-            tmp.append("-");
+            tmp.append("- ");
         }
 
         return tmp;

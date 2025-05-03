@@ -1,6 +1,6 @@
 package org.example.estructuras;
 
-import org.example.estructuras.arbol.ArbolAVL;
+import org.example.estructuras.arbol.Arbol;
 
 public class Mapa {
 
@@ -142,9 +142,11 @@ public class Mapa {
                     lineaInferior.append(columnaActual.getDerecha().getEste().colaVehiculoH2());
                 }
 
+
+
                 if (columnaActual.getAbajo() !=null){
-                       linea1.append(" "+columnaActual.getNorte().colaVehiculoV());
-                       linea2.append(" "+columnaActual.getNorte().colaVehiculoV2());
+                       linea1.append(columnaActual.getNorte().colaVehiculoV());
+                       linea2.append(columnaActual.getNorte().colaVehiculoV2());
 
                        linea1.append(columnaActual.getAbajo().getSur().colaVehiculoV());
                        linea2.append(columnaActual.getAbajo().getSur().colaVehiculoV2());
@@ -153,6 +155,7 @@ public class Mapa {
                    linea1.append("    ");
                    linea2.append("    ");
                    contColum++;
+
                 columnaActual = columnaActual.getDerecha();
             }
 
@@ -162,6 +165,7 @@ public class Mapa {
             System.out.println(linea1);
             System.out.println(linea2);
             filaActual = filaActual.getAbajo();
+
             }
         }
 
@@ -186,7 +190,7 @@ public class Mapa {
         return null;
     }
 
-    public void ordenarEnArbol(ArbolAVL arbolAVL) {
+    public void ordenarEnArbol(Arbol arbolAVL) {
         NodoInterseccion filaActual = inicio;
 
         while (filaActual != null) {
