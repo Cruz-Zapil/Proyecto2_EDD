@@ -51,8 +51,7 @@ public class Main {
 
             System.out.println(" 1) Leer Archivo");
             System.out.println(" 2) Crear Vehiculo Manulamente");
-            System.out.println(" 3) Ver reporte");
-            System.out.println(" 4) Salir");
+            System.out.println(" 3) Salir");
 
             opcion = scanner.nextInt();
             System.out.println(opcion);
@@ -68,10 +67,6 @@ public class Main {
                    simulacion1.ingresarVehiculoManual();
                     break;
                 case 3:
-                    System.out.println(" Ver reporte");
-                    /// ver reporte
-                    break;
-                case 4:
 
                     System.out.println("_________________________");
                     System.out.println("_______   Adios  ________");
