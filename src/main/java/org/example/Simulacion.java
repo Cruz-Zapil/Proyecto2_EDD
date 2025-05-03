@@ -5,6 +5,7 @@ import org.example.estructuras.NodoInterseccion;
 import org.example.estructuras.arbol.Arbol;
 import org.example.estructuras.hash.TablaHashPlaca;
 import org.example.estructuras.lista.ListaNewVehiculo;
+import org.example.estructuras.lista.ListaNodoIntersec;
 import org.example.objeto.Vehiculo;
 import org.example.util.LectorCSV;
 import org.example.util.VisualizadorAVL;
@@ -19,6 +20,7 @@ public class Simulacion {
     private TablaHashPlaca tabla = new TablaHashPlaca();
     private Mapa mapa;
     private Arbol arbolAVL = new Arbol();
+    private ListaNodoIntersec listaNodosInt = new ListaNodoIntersec();
 
     public void leerArchivo() throws Exception {
 
@@ -28,6 +30,9 @@ public class Simulacion {
         ingresarVehiculosMapa();
         /// guardar el registro de los nodos
         guardarNodosAvl();
+        /// guardar nodos en la lista
+        guardarNodosLista();
+        /// iniciar la simulacion
         iniciarSimulacion();
 
     }
@@ -67,6 +72,9 @@ public class Simulacion {
                         ingresarVehiculosMapa();
                         /// guardar el registro de los nodos
                         guardarNodosAvl();
+                        /// guardar nodos en la lista
+                        guardarNodosLista();
+                        /// iniciar la simulacion
                         iniciarSimulacion();
 
                         return; // detener el metodo despues de la simulacion
@@ -122,6 +130,8 @@ public class Simulacion {
                     moverTrafico();
                     /// guardar el registro de los nodos
                     guardarNodosAvl();
+                    /// guardar nodos en la lista
+                    guardarNodosLista();
                     break;
                 case 2:
                     ingresarNuevoVehiculo();
@@ -133,7 +143,9 @@ public class Simulacion {
                     break;
                 case 4:
                     verReporte();
-                    break;
+                    System.out.println("Simulación terminada.");
+
+                    return; // salir del ciclo
                 default:
                     System.out.println(" Ingrese una opcion valida ");
             }
@@ -144,9 +156,25 @@ public class Simulacion {
 
     /// mover trafico primero los mas congestionados
     public void moverTrafico() {
+        /// cada moviento seria como un segundo cada enter seria un segundo acumulado 
         NodoInterseccion nodo;
-
-        
+        boolean vehiculoMovido = false;
+        while (!listaNodosInt.estaVacia()) {
+            nodo = listaNodosInt.getPrimerInterseccion();
+         
+            if (nodo != null) {
+                vehiculoMovido= nodo.moverVehiculos();
+                nodo.calcularComplejidad();
+                nodo.actulizarTiempo();
+            
+                if (vehiculoMovido) {
+                    mapa.imprimirMapa(); // imprimir cuando hubo movimiento
+                }
+             
+                
+            } 
+            
+        }
 
     }
 
@@ -155,7 +183,21 @@ public class Simulacion {
         mapa.ordenarEnArbol(arbolAVL);
     }
 
+    public void guardarNodosLista() {
+        mapa.ordenarEnLsita(listaNodosInt);
+    }
+
     public void verEstadoTrafico() {
+
+        /// estado de trafico // nodos 
+        /// ver el estado de los nodos
+        System.out.println("Estado de tráfico:");
+        System.out.println("Ingrese el nodo que desea consultar (ej. A1): ");
+        String nodoPosicion = scanner.nextLine();
+        String fila = utils.extraerFila(nodoPosicion);
+        int columna = utils.extraerColumna(nodoPosicion);
+        NodoInterseccion nodo = mapa.getNodo(fila, columna);
+        
 
     }
 
@@ -196,7 +238,7 @@ public class Simulacion {
         int tamanioTabla = listaVehiculos.getTamanioTabla();
         System.out.println("El tamanio de la tabla seria: " + tamanioTabla);
         /// creamos la tabla con el nodo mayor.
-        mapa = new Mapa(tamanioTabla);
+        mapa = new Mapa(tamanioTabla+1);
     }
 
 }

@@ -1,6 +1,7 @@
 package org.example.estructuras;
 
 import org.example.estructuras.arbol.Arbol;
+import org.example.estructuras.lista.ListaNodoIntersec;
 
 public class Mapa {
 
@@ -205,8 +206,24 @@ public class Mapa {
 
             filaActual = filaActual.getAbajo();
         }
+
     }
 
+    public void ordenarEnLsita(ListaNodoIntersec lista) {
+        NodoInterseccion filaActual = inicio;
+
+        while (filaActual != null) {
+            NodoInterseccion columnaActual = filaActual;
+
+            while (columnaActual != null) {
+                // ingresar e en el arbol Alv
+                lista.ingresarOrdenado(columnaActual);
+                columnaActual = columnaActual.getDerecha();
+            }
+            filaActual = filaActual.getAbajo();
+        }
+        
+    }
 
 
 

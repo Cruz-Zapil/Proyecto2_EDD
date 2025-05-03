@@ -22,7 +22,6 @@ public class Arbol {
             nodo.setDerecha(insertar(nodo.getDerecha(), interseccion));
         } else {
             nodo.setDerecha(insertar(nodo.getDerecha(), interseccion)); // Inserta duplicados a la derecha
-            // o
         }
 
         nodo.setAltura(1 + Math.max(altura(nodo.getIzquierda()), altura(nodo.getDerecha())));
@@ -43,7 +42,6 @@ public class Arbol {
             nodo.setDerecha(rotarDerecha(nodo.getDerecha()));
             return rotarIzquierda(nodo);
         }
-
         return nodo;
     }
 

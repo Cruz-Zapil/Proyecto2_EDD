@@ -104,8 +104,6 @@ public class NodoInterseccion {
 
     /// obtener la complejidad
     public int getComplejidad(){
-        calcularComplejidad();
-        /// cada vez que se llama a la funcion se recalcula
         return this.complejidad;
     }
 
@@ -129,19 +127,29 @@ public class NodoInterseccion {
     /////
     /////
 
-    public void moverVehiculos() {
-        moverDesdeCola(norte);
-        moverDesdeCola(sur);
-        moverDesdeCola(este);
+    public boolean moverVehiculos() {
+      boolean algunMovimiento =  moverDesdeCola(norte) ||
+        moverDesdeCola(sur)||
+        moverDesdeCola(este)||
         moverDesdeCola(oeste);
+
+        return algunMovimiento;
+
     }
 
-    private void moverDesdeCola(ColaPrioridad cola) {
+    private boolean moverDesdeCola(ColaPrioridad cola) {
+
+        /// verificar si se movio un vehiculo
+        boolean vehiculoMovido = false;
+
         if (!cola.estaVacio()) {
             Vehiculo v = cola.desencolar(); // obtener vehiculo
+
             if (v != null) {
                 if (esDestino(v)) {
-                    System.out.println(" llegó a su destino ");
+                    System.out.println(" **************************+");
+                    System.out.println("Llego a su destino: en " + this.fila + this.columna);
+                    System.out.println(" **************************+");
                      // guardarlo en cola de destino
                     destino.encolar(v);
                 } else {
@@ -150,7 +158,11 @@ public class NodoInterseccion {
                     // cola.encolar(v);
                 }
             }
+
+            vehiculoMovido = true;
         }
+
+        return vehiculoMovido;
     }
 
 

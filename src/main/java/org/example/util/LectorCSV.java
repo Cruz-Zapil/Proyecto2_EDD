@@ -24,6 +24,7 @@ public class LectorCSV {
             while ((linea = br.readLine()) != null) {
 
                 String[] datos = linea.split(",");
+                int numDatos = datos.length;
                 if (datos.length == 6) {
                     String tipo = datos[0].trim();
                     String placa = datos[1].trim();
@@ -64,3 +65,6 @@ public class LectorCSV {
 
 
 }
+
+
+

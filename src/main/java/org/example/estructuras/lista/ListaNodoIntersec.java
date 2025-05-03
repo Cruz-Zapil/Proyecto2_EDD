@@ -1,25 +1,25 @@
 package org.example.estructuras.lista;
+import org.example.estructuras.NodoInterseccion;
 
-import org.example.objeto.Vehiculo;
+public class ListaNodoIntersec {
 
-public class ListaNewVehiculo {
 
-    private Nodo cabeza;
+        private NodoIntersec cabeza;
 
     /// ingresar vehiculo ordenado por posicion
 
-    public void ingresarOrdenado(Vehiculo vehiculo) {
-        Nodo nuevoNodo = new Nodo(vehiculo);
+    public void ingresarOrdenado(NodoInterseccion interseccion) {
+        NodoIntersec nuevoNodo = new NodoIntersec(interseccion);
 
         //  lista vacia y  o nuevo vehículo tiene código menor al primero
-        if (cabeza == null || vehiculo.getCodigo() > cabeza.getVehiculo().getCodigo()) {
+        if (cabeza == null || interseccion.getComplejidad() > cabeza.getInterseccion().getComplejidad()) {
             nuevoNodo.setSiguiente(cabeza);
             cabeza = nuevoNodo;
         } else {
             // ingresar
-            Nodo actual = cabeza;
+            NodoIntersec actual = cabeza;
             while (actual.getSiguiente() != null &&
-                    actual.getSiguiente().getVehiculo().getCodigo() < vehiculo.getCodigo()) {
+                    actual.getSiguiente().getInterseccion().getComplejidad() < interseccion.getComplejidad()) {
                 actual = actual.getSiguiente();
             }
             nuevoNodo.setSiguiente(actual.getSiguiente());
@@ -29,9 +29,9 @@ public class ListaNewVehiculo {
 
     //   imprimir la lista
     public void imprimirLista() {
-        Nodo actual = cabeza;
+        NodoIntersec actual = cabeza;
         while (actual != null) {
-            System.out.println(actual.getVehiculo());
+            System.out.println(actual.getInterseccion());
             actual = actual.getSiguiente();
         }
     }
@@ -45,7 +45,7 @@ public class ListaNewVehiculo {
 
     public int tamaño() {
         int contador = 0;
-        Nodo actual = cabeza;
+        NodoIntersec actual = cabeza;
         while (actual != null) {
             contador++;
             actual = actual.getSiguiente();
@@ -53,26 +53,13 @@ public class ListaNewVehiculo {
         return contador;
     }
 
-    public Vehiculo getPrimerVehiculo() {
+    public NodoInterseccion getPrimerInterseccion() {
         if (cabeza == null) {
             return null; // la lista esta vacia
         }
-        Vehiculo vehiculo = cabeza.getVehiculo(); // obtenemos el primero
+        NodoInterseccion interseccion = cabeza.getInterseccion(); // obtenemos el primero
         cabeza = cabeza.getSiguiente(); // obtenemos el siguente
-        return vehiculo;
+        return interseccion;
     }
-
-    /// obtenemos el tamaño de la tabla
-    public int getTamanioTabla(){
-        
-        return cabeza.getVehiculo().getCodigo();
-    }
-
-
-
+    
 }
-
-
-
-
-
