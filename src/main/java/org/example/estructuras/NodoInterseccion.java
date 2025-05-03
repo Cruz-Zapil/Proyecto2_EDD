@@ -163,7 +163,8 @@ public class NodoInterseccion {
 
                     /// guardar evento en la pila
                     /// guardar vehiculo en la pila
-                    pilaEventos.apilar("El vehiculo:" +v.getPlaca() +" paso por: "+ this.fila + this.columna);
+                    pilaEventos.apilar("El vehiculo:" +v.getPlaca() +" paso por: "+ this.fila + this.columna + " con destino: " + v.getDestinoFila() + v.getDestinoColumna());
+                
 
                     moverVehiculoHaciaDireccion(v);
                     // Aquí podrías volver a encolarlo si aún no llega
@@ -234,12 +235,17 @@ public class NodoInterseccion {
     
     public void mostrarEventos() {
 
-        System.out.println("--------------------");
+        if(cantVehiculosAtendidos != 0){
+            System.out.println("--------------------");
         System.out.println("Eventos en la pila de " + this.fila + this.columna + ":");
         System.out.println("Vehiculos atendidos: " + cantVehiculosAtendidos);
         pilaEventos.imprimir();
 
         System.out.println("--------------------");
+
+        }
+
+   
     }
 
     // obtener colas de prioridad
